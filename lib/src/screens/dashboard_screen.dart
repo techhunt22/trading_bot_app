@@ -3,16 +3,14 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import '../../constants/color_constants.dart';
 import '../../constants/font_size.dart';
-import '../bindings/account_bindings.dart';
 import 'dashboard/about/about.dart';
-import 'dashboard/main/main_screen.dart';
-import 'dashboard/manual/manual.dart';
-import 'dashboard/orders/orders.dart';
+import 'dashboard/bot/bot_start_screen.dart';
+import 'dashboard/buysellcoins/buy_sell_coins.dart';
 import 'dashboard/settings/settings.dart';
 
 class ScreenController extends GetxController {
   var currentScreen =
-      'Main'.obs; // Reactive variable to track the current screen
+      'Settings'.obs; // Reactive variable to track the current screen
 }
 
 class DrawerMain extends StatefulWidget {
@@ -78,61 +76,31 @@ class _DrawerMainState extends State<DrawerMain> {
                 height: 50,
               ),
 
-              buttonDrawer(
-                  img: "assets/icons/main.svg",
-                  name: "Main",
-                  isSelected: screenController.currentScreen.value == "Main",
-                  ontap: () async {
-                    screenController.currentScreen.value =
-                        "Main"; // Update current screen
+              // buttonDrawer(
+              //     img: "assets/icons/main.svg",
+              //     name: "Main",
+              //     isSelected: screenController.currentScreen.value == "Main",
+              //     ontap: () async {
+              //       screenController.currentScreen.value =
+              //           "Main"; // Update current screen
+              //
+              //       Future.delayed(const Duration(milliseconds: 500), () {
+              //         Get.back();
+              //         Get.off(() => const MainScreen());
+              //       });
+              //
+              //     }),
+              //
+              // const SizedBox(
+              //   height: 20,
+              // ),
+              //
 
-                    Future.delayed(const Duration(milliseconds: 500), () {
-                      Get.back();
-                      Get.off(() => const MainScreen());
-                    });
-
-                  }),
-
-              const SizedBox(
-                height: 20,
-              ),
-
-              buttonDrawer(
-                  img: "assets/icons/order.svg",
-                  name: "Orders",
-                  isSelected: screenController.currentScreen.value == "Orders",
-                  ontap: () async {
-                    screenController.currentScreen.value =
-                        "Orders"; // Update current screen
+              // const SizedBox(
+              //   height: 20,
+              // ),
 
 
-                    Future.delayed(const Duration(milliseconds: 500), () {
-                      Get.back();
-                      Get.off(() => const Orders());
-                    });
-
-
-                  }),
-              const SizedBox(
-                height: 20,
-              ),
-              buttonDrawer(
-                  img: "assets/icons/manual.svg",
-                  name: "Manual",
-                  isSelected: screenController.currentScreen.value == "Manual",
-                  ontap: () async {
-                    screenController.currentScreen.value =
-                    "Manual"; // Update current screen
-
-                    Future.delayed(const Duration(milliseconds: 500), () {
-                      Get.back();
-                      Get.off(() => const Manual());
-                    });
-
-                  }),
-              const SizedBox(
-                height: 20,
-              ),
               buttonDrawer(
                   img: "assets/icons/settings.svg",
                   name: "Settings",
@@ -145,9 +113,45 @@ class _DrawerMainState extends State<DrawerMain> {
                     Future.delayed(const Duration(milliseconds: 500), () {
                       Get.back();
                       Get.off(() => const SettingsScreen(),
-                      binding: AccountBinding()
                       );
                     });
+
+                  }),
+              const SizedBox(
+                height: 20,
+              ),
+              buttonDrawer(
+                  img: "assets/icons/carticon.svg",
+                  name: "Buy and Sell",
+                  isSelected: screenController.currentScreen.value == "Buy and Sell",
+                  ontap: () async {
+                    screenController.currentScreen.value =
+                    "Buy and Sell"; // Update current screen
+
+                    Future.delayed(const Duration(milliseconds: 500), () {
+                      Get.back();
+                      Get.off(() => const BuySellCoinsScreen());
+                    });
+
+                  }),
+              const SizedBox(
+                height: 20,
+              ),
+
+              buttonDrawer(
+                  img: "assets/icons/manual.svg",
+                  name: "Bot",
+                  isSelected: screenController.currentScreen.value == "Bot",
+                  ontap: () async {
+                    screenController.currentScreen.value =
+                        "Bot"; // Update current screen
+
+
+                    Future.delayed(const Duration(milliseconds: 500), () {
+                      Get.back();
+                      Get.off(() => const BotStartScreen());
+                    });
+
 
                   }),
 

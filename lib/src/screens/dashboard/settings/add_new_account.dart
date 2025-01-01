@@ -1,12 +1,9 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../constants/color_constants.dart';
 import '../../../../constants/font_size.dart';
-import '../../../../constants/padding.dart';
 import '../../../../utils/CustomWidgets/custom_textfields.dart';
-import '../../../../utils/CustomWidgets/customdropdown.dart';
 import '../../../data/repositories/accounts/create_account_repo.dart';
 import '../../../viewmodels/accounts/create_account_controller.dart';
 
@@ -21,20 +18,8 @@ class _AddNewAccountScreenState extends State<AddNewAccountScreen> {
   final accountname = TextEditingController();
   final apikey = TextEditingController();
   final secrekey = TextEditingController();
-  final passphrase = TextEditingController();
-  final telegramid = TextEditingController();
+  final exhchangeid = TextEditingController(text: "Binance");
 
-  final List<Map<String, dynamic>> _exhangeid = [
-    {'value': 'Binance', 'icon': "assets/icons/binance.png"},
-    {'value': 'Coinbase', 'icon': "assets/icons/binanceus.png"},
-    {'value': 'KuCoin', 'icon': "assets/icons/bittrex.png"},
-    {'value': 'Crypto', 'icon': "assets/icons/button.png"},
-    {'value': 'OKX', 'icon': "assets/icons/huobi.png"},
-    {'value': 'Karakin', 'icon': "assets/icons/kucoin.png"},
-
-  ];
-
-  String? _selectedValue;
 
   final creataccount = Get.put(CreateAccountController(CreateAccountRepository()));
 
@@ -46,16 +31,14 @@ class _AddNewAccountScreenState extends State<AddNewAccountScreen> {
     accountname.dispose();
     apikey.dispose();
     secrekey.dispose();
-    passphrase.dispose();
-    telegramid.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: globalPadding,
-      child: Form(
-        key: _formKey,
+    return Form(
+      key: _formKey,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -70,8 +53,9 @@ class _AddNewAccountScreenState extends State<AddNewAccountScreen> {
             CustomTextField(
               fillColor: background,
               controller: accountname,
+              titleon: true,
               hinttext: "Account Name",
-
+              readonly: false,
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return 'This field cannot be empty';
@@ -87,25 +71,24 @@ class _AddNewAccountScreenState extends State<AddNewAccountScreen> {
               height: 20,
             ),
 
-
-
-            CustomDropdown(
-              title: 'Exchange ID',
-              hintText: 'Select Exchange ID',
-              items: _exhangeid,
-              selectedValue: _selectedValue,
+            CustomTextField(
+              fillColor: background,
+              readonly: true,
               titleon: true,
-
-              onChanged: (value) {
-                setState(() {
-                  _selectedValue = value;
-                });
-                // Add your debug print statement if needed
-                if (kDebugMode) {
-                  print(_selectedValue);
+              controller: exhchangeid,
+              hinttext: "",
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'This field cannot be empty';
                 }
+                return null;
               },
+              keyboardType: TextInputType.none,
+              textColor: white,
+              action: TextInputAction.done,
+              text: "Exchange ID",
             ),
+
 
             const SizedBox(
               height: 20,
@@ -127,7 +110,7 @@ class _AddNewAccountScreenState extends State<AddNewAccountScreen> {
             const SizedBox(
               height: 20,
             ),
-            
+
             CustomPasswordField(
               fillColor: background,
               controller: secrekey,
@@ -143,98 +126,64 @@ class _AddNewAccountScreenState extends State<AddNewAccountScreen> {
               textColor: white,
               text: "Secret Key",
             ),
-            const SizedBox(
-              height: 20,
-            ),
-            CustomPasswordField(
-              fillColor: background,
-              controller: passphrase,
-              hinttext: "Only available on Kucoin",
 
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'This field cannot be empty';
-                }
-                return null;
-              },
-              keyboardType: TextInputType.text,
-              textColor: white,
-              text: "Passphrase",
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            CustomTextField(
-              fillColor: background,
-              controller: telegramid,
-              hinttext: "Your Telegram User ID. It should be a number",
 
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'This field cannot be empty';
-                }
-                return null;
-              },
-              keyboardType: TextInputType.text,
-              textColor: white,
-              action: TextInputAction.done,
-              text: "Telegram User ID",
-            ),
             const SizedBox(
               height: 50,
             ),
             Center(
-              child: Container(
-                width: double.infinity,
-                margin: const EdgeInsets.symmetric(horizontal: 20),
-                decoration: BoxDecoration(
-                    gradient: buttonlineargradient(),
-                    borderRadius:
-                        const BorderRadiusDirectional.all(Radius.circular(10))),
-                child: ElevatedButton(
-                  style: ButtonStyle(
-                    backgroundColor:
-                        WidgetStateProperty.all(Colors.transparent),
-                    // Make button background transparent
-                    shadowColor: WidgetStateProperty.all(Colors.transparent),
-                    // Remove shadow
-                    shape: WidgetStateProperty.all(RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    )),
-                  ),
-                  child: const Text(
-                    "Add New Account",
-                    style: TextStyle(
-                        color: white,
-                        fontSize: bodylarge,
-                        fontWeight: FontWeight.w500),
-                  ),
-                  onPressed: () {
-                    if (_selectedValue == null || _selectedValue!.isEmpty) {
-                      Get.snackbar('Error', 'Please select an Exchange ID',
-                          backgroundColor: red,
-                        colorText: white,
-                          snackPosition: SnackPosition.BOTTOM,
-                        margin: const EdgeInsets.only(bottom: 20,right: 20,left: 20),
+              child: Obx(() {
+                return   creataccount.isLoading.value  ? const CircularProgressIndicator() :
+                Container(
+                  width: double.infinity,
+                  margin: const EdgeInsets.symmetric(horizontal: 20),
+                  decoration: BoxDecoration(
+                      gradient: buttonlineargradient(),
+                      borderRadius:
+                      const BorderRadiusDirectional.all(Radius.circular(10))),
+                  child: ElevatedButton(
+                    style: ButtonStyle(
+                      backgroundColor:
+                      WidgetStateProperty.all(Colors.transparent),
+                      // Make button background transparent
+                      shadowColor: WidgetStateProperty.all(Colors.transparent),
+                      // Remove shadow
+                      shape: WidgetStateProperty.all(RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      )),
+                    ),
+                    child: creataccount.isLoading.value
+                        ? const CircularProgressIndicator()
+                        : const Text(
+                      "Add New Account",
+                      style: TextStyle(
+                          color: white,
+                          fontSize: bodylarge,
+                          fontWeight: FontWeight.w500),
+                    ),
+                    onPressed: () {
 
-                      );
-                    }
 
-                    else if (_formKey.currentState!.validate()) {
-                      // Proceed with account creation if both conditions are fulfilled
-                      creataccount.accountcreate(
-                        type: _selectedValue!,
-                        accountName: accountname.text,
-                        exchangeId: _selectedValue!,
-                        apiKey: apikey.text,
-                        secretKey: secrekey.text,
-                        passphrase: passphrase.text,
-                        telegramUserId: telegramid.text,
-                      );
-                    }
-                  },
-                ),
-              ),
+                     if (_formKey.currentState!.validate()) {
+                        // Proceed with account creation if both conditions are fulfilled
+                       creataccount.accountcreate(
+                         accountName: accountname.text,
+                         apiKey: apikey.text,
+                         secretKey: secrekey.text,
+                       ).then((_) {
+                         accountname.clear();
+                         apikey.clear();
+                         secrekey.clear();
+                        });
+
+
+
+
+                      }
+                    },
+                  ),
+                );
+              }),
             ),
           ],
         ),

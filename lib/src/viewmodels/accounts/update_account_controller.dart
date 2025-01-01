@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import '../../../Constants/color_constants.dart';
+import '../../core/error/error_handler.dart';
 import '../../data/repositories/accounts/update_account_repo.dart';
 
 
@@ -21,40 +22,35 @@ class UpdateAccountController extends GetxController {
   // Method to handle login
   Future<void> accountupdate(
       {
-        required String type,
+
         required String accountName,
-        required String exchangeId,
+
         required String apiKey,
         required String secretKey,
-        required String passphrase,
-        required String telegramUserId,
+
         required String accountId,
       }) async {
     isLoading.value = true;
     errorMessage.value = '';
 
     try {
-       await updateaccountrepo.updateAccount(
-          type: type,
+      final response =   await updateaccountrepo.updateAccount(
+
           accountName: accountName,
-          exchangeId: exchangeId,
           apiKey: apiKey,
           secretKey: secretKey,
-          passphrase: passphrase,
-          telegramUserId: telegramUserId,
           accountId: accountId
       );
 
 
-      // if (kDebugMode) {
-      //   print('Update Account successful: ${updateaccount?.account.accountName}');
-      // }
-      // if (kDebugMode) {
-      //   print('Update Account successful: ${updateaccount?.account.id}');
-      // }
+      if (kDebugMode) {
+        print('Update Account successful: ${response.account.accountName}');
+        print('Update Account successful: ${response.account.id}');
+      }
+
       Get.snackbar(
         'Successful',
-        'Account has been Updated!',
+        response.message,
         snackPosition: SnackPosition.BOTTOM,
         margin: const EdgeInsets.only(bottom: 20,right: 20,left: 20),
         backgroundColor: purple,
@@ -62,23 +58,16 @@ class UpdateAccountController extends GetxController {
       );
 
 
-    } catch (error) {
-      errorMessage.value = error.toString();
+    } catch (e) {
+      ErrorHandler.handle(
+        e,
+        defaultErrorMessage: 'Failed to update account. Please try again.',
+      );
 
 
       if (kDebugMode) {
-        print('Update Account failed controller: $error');
+        print('Update Account failed controller: $e');
       }
-      Get.snackbar(
-        'Update Account Failed',
-        '${errorMessage.value}!',
-        snackPosition: SnackPosition.BOTTOM,
-        margin: const EdgeInsets.symmetric(
-            horizontal: 20 , vertical: 20),
-        backgroundColor: red,
-        colorText: white,
-      );
-
 
     } finally {
 

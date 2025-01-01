@@ -1,21 +1,18 @@
-
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:tradingapp_bot/src/core/api_urls/api_urls.dart';
 
+import '../../../core/error/exception.dart';
 import '../../../core/service/service.dart';
 import '../../models/accounts/all_account_model.dart';
 
 class AllAccountRepository {
-
   AllAccountRepository();
+
   final apiService = ApiService();
 
-
   Future<List<AllAccountModel>> getAllAccount() async {
-
-
     try {
       var endpoint = ListAPI.getallaccounts;
 
@@ -26,33 +23,33 @@ class AllAccountRepository {
 
       if (kDebugMode) {
         print('//////////////////////////////////////');
-      }
-      if (kDebugMode) {
         print('Get All Account API Response status: ${response.statusCode}');
-      }
-      if (kDebugMode) {
         print('Get All Account API data: ${response.data}');
       }
-      if (response.statusCode! >= 200 && response.statusCode! < 300) {
-        // Convert the response body to a JSON string
-        String jsonString = json.encode(response.data);
 
+      String jsonString = json.encode(response.data);
 
-        // List<dynamic> data = response.data;
-        // return data.map((account) => AllAccountModel.fromJson(account)).toList();
+      // List<dynamic> data = response.data;
+      // return data.map((account) => AllAccountModel.fromJson(account)).toList();
 
-        return allAccountModelFromJson(jsonString);
-      } else {
-        throw Exception('Failed to load accounts');
-      }
+      return allAccountModelFromJson(jsonString);
 
 
     } catch (e) {
-      // Handle the exception and rethrow it to be handled by the controller
       if (kDebugMode) {
-        print('Error in Get All Account Repository: $e');
+        print('Error in Get All Accounts Repository: $e');
       }
-      rethrow;
+
+      // Instead of handling error here, throw a custom exception
+      if (e is ApiException) {
+        rethrow;
+      } else {
+        throw ApiException(
+          message: 'Failed to get all accounts',
+          statusCode: 500,
+          details: 'The server is temporarily unavailable.',
+        );
+      }
     }
   }
 }

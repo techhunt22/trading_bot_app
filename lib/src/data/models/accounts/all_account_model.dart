@@ -1,7 +1,3 @@
-// To parse this JSON data, do
-//
-//     final allAccountModel = allAccountModelFromJson(jsonString);
-
 import 'dart:convert';
 
 List<AllAccountModel> allAccountModelFromJson(String str) => List<AllAccountModel>.from(json.decode(str).map((x) => AllAccountModel.fromJson(x)));
@@ -14,8 +10,6 @@ class AllAccountModel {
   String exchangeId;
   String apiKey;
   String secretKey;
-  String passphrase;
-  String telegramUserId;
 
   AllAccountModel({
     required this.id,
@@ -23,8 +17,6 @@ class AllAccountModel {
     required this.exchangeId,
     required this.apiKey,
     required this.secretKey,
-    required this.passphrase,
-    required this.telegramUserId,
   });
 
   factory AllAccountModel.fromJson(Map<String, dynamic> json) => AllAccountModel(
@@ -33,8 +25,6 @@ class AllAccountModel {
     exchangeId: json["exchangeId"],
     apiKey: json["apiKey"],
     secretKey: json["secretKey"],
-    passphrase: json["passphrase"],
-    telegramUserId: json["telegramUserId"],
   );
 
   Map<String, dynamic> toJson() => {
@@ -43,7 +33,5 @@ class AllAccountModel {
     "exchangeId": exchangeId,
     "apiKey": apiKey,
     "secretKey": secretKey,
-    "passphrase": passphrase,
-    "telegramUserId": telegramUserId,
   };
 }

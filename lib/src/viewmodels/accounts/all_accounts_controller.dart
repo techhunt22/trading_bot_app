@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 
+import '../../core/error/error_handler.dart';
 import '../../data/models/accounts/all_account_model.dart';
 import '../../data/repositories/accounts/all_accounts_repo.dart';
 
@@ -12,7 +13,6 @@ class AllAccountController extends GetxController {
   final AllAccountRepository allaccountrepo;
 
   AllAccountController(this.allaccountrepo);
-
   // Observables for managing UI state
   var isLoading = false.obs;
   var errorMessage = ''.obs;
@@ -21,15 +21,17 @@ class AllAccountController extends GetxController {
 
 
 
-
   // TextEditingControllers as observables
-  final accountName = TextEditingController().obs;
+  final accname = TextEditingController().obs;
   final apiKey = TextEditingController().obs;
   final secretKey = TextEditingController().obs;
-  final passphrase = TextEditingController().obs;
-  final telegramId = TextEditingController().obs;
-  final exchangeId = TextEditingController().obs;
 
+  void resetFields() {
+    // Clear the text fields using their controllers
+    accname.value.clear();
+    apiKey.value.clear();
+    secretKey.value.clear();
+  }
   List<String> get accountIds => allAccounts.map((account) => account.id.toString()).toList();
 
   // @override
@@ -40,28 +42,26 @@ class AllAccountController extends GetxController {
 
   @override
   void onClose() {
-    accountName.value.dispose();
+    accname.value.dispose();
     apiKey.value.dispose();
     secretKey.value.dispose();
-    passphrase.value.dispose();
-    telegramId.value.dispose();
-    exchangeId.value.dispose();
+
+
     super.onClose();
   }
 
   void fetchAccountDetails(String accountId) {
     final account = allAccounts.firstWhere(
             (account) => account.id == accountId,
-        orElse: () => AllAccountModel(id: '', accountName: '', exchangeId: '', apiKey: '', secretKey: '', passphrase: '', telegramUserId: '')
+        orElse: () => AllAccountModel(
+            id: '', accountName: '', exchangeId: 'Binance', apiKey: '', secretKey: '', )
     );
 
     selectedAccountId.value = accountId;
-    accountName.value.text = account.accountName;
+    accname.value.text = account.accountName;
     apiKey.value.text = account.apiKey;
     secretKey.value.text = account.secretKey;
-    passphrase.value.text = account.passphrase;
-    telegramId.value.text = account.telegramUserId;
-    exchangeId.value.text = account.exchangeId;
+
   }
 
 
@@ -76,19 +76,9 @@ class AllAccountController extends GetxController {
 
       if (kDebugMode) {
         for (var account in accounts) {
-          print('Account ID: ${account.id}');
-          print('Account Name: ${account.accountName}');
+          print('Account ID: ${account.id} : ${account.accountName}');
         }
       }
-
-      // Get.snackbar(
-      //   'Successful',
-      //   '${allaccount?.account.accountName} account has been Updated!',
-      //   snackPosition: SnackPosition.BOTTOM,
-      //   margin: const EdgeInsets.only(bottom: 20,right: 20,left: 20),
-      //   backgroundColor: purple,
-      //   colorText: white,
-      // );
 
 
     } catch (error) {
@@ -98,15 +88,12 @@ class AllAccountController extends GetxController {
       if (kDebugMode) {
         print('Get All Account failed controller: $error');
       }
-      // Get.snackbar(
-      //   'Update Account Failed',
-      //   '${errorMessage.value}!',
-      //   snackPosition: SnackPosition.BOTTOM,
-      //   margin: const EdgeInsets.symmetric(
-      //       horizontal: 20 , vertical: 20),
-      //   backgroundColor: red,
-      //   colorText: white,
-      // );
+      ErrorHandler.handle(
+        error,
+        defaultErrorMessage: 'Failed to get all accounts. Please try again.',
+
+      );
+
 
 
     } finally {

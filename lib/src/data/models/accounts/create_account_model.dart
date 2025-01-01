@@ -1,23 +1,23 @@
 // To parse this JSON data, do
 //
-//     final createAccountModel = createAccountModelFromJson(jsonString);
+//     final accountModel = accountModelFromJson(jsonString);
 
 import 'dart:convert';
 
-CreateAccountModel createAccountModelFromJson(String str) => CreateAccountModel.fromJson(json.decode(str));
+AccountModel accountModelFromJson(String str) => AccountModel.fromJson(json.decode(str));
 
-String createAccountModelToJson(CreateAccountModel data) => json.encode(data.toJson());
+String accountModelToJson(AccountModel data) => json.encode(data.toJson());
 
-class CreateAccountModel {
+class AccountModel {
   String message;
   Account account;
 
-  CreateAccountModel({
+  AccountModel({
     required this.message,
     required this.account,
   });
 
-  factory CreateAccountModel.fromJson(Map<String, dynamic> json) => CreateAccountModel(
+  factory AccountModel.fromJson(Map<String, dynamic> json) => AccountModel(
     message: json["message"],
     account: Account.fromJson(json["account"]),
   );
@@ -29,45 +29,37 @@ class CreateAccountModel {
 }
 
 class Account {
+  String id;
   String accountName;
   String exchangeId;
   String apiKey;
   String secretKey;
-  String passphrase;
-  String telegramUserId;
-  String id;
   int v;
 
   Account({
+    required this.id,
     required this.accountName,
     required this.exchangeId,
     required this.apiKey,
     required this.secretKey,
-    required this.passphrase,
-    required this.telegramUserId,
-    required this.id,
     required this.v,
   });
 
   factory Account.fromJson(Map<String, dynamic> json) => Account(
+    id: json["_id"],
     accountName: json["accountName"],
     exchangeId: json["exchangeId"],
     apiKey: json["apiKey"],
     secretKey: json["secretKey"],
-    passphrase: json["passphrase"],
-    telegramUserId: json["telegramUserId"],
-    id: json["_id"],
     v: json["__v"],
   );
 
   Map<String, dynamic> toJson() => {
+    "_id": id,
     "accountName": accountName,
     "exchangeId": exchangeId,
     "apiKey": apiKey,
     "secretKey": secretKey,
-    "passphrase": passphrase,
-    "telegramUserId": telegramUserId,
-    "_id": id,
     "__v": v,
   };
 }

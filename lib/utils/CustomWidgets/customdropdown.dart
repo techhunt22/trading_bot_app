@@ -28,21 +28,18 @@ class CustomDropdown extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start, // Align title to the left
       children: [
         titleon == true
-            ? Padding(
-              padding: const EdgeInsets.only(left: 10.0),
-              child: Text(
-                  title!,
-                  style: const TextStyle(
-                      fontSize: titlesmall,
-                      fontWeight: FontWeight.w400,
-                      color: white),
-                ),
-            )
+            ? Text(
+                title!,
+                style: const TextStyle(
+                    fontSize: titlesmall,
+                    fontWeight: FontWeight.w400,
+                    color: white),
+              )
             : const SizedBox.shrink(),
         const SizedBox(
           height: 10,
         ),
-        const SizedBox(height: 10),
+
         DropdownButtonHideUnderline(
           child: DropdownButton2(
             isExpanded: true,

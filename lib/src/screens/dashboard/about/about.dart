@@ -1,19 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:tradingapp_bot/constants/color_constants.dart';
 import 'package:tradingapp_bot/src/screens/dashboard_screen.dart';
 
 import '../../../../constants/font_size.dart';
 
-class About extends StatefulWidget {
+class About extends StatelessWidget {
   const About({super.key});
 
   @override
-  State<About> createState() => _AboutState();
-}
-
-class _AboutState extends State<About> {
-  @override
   Widget build(BuildContext context) {
+   // final SocketController socketController = Get.put(SocketController());
     return Scaffold(
         backgroundColor: background,
         appBar: AppBar(
@@ -29,14 +26,15 @@ class _AboutState extends State<About> {
                   borderRadius: BorderRadius.circular(15), // Rounded corners
                 ),
                 child: IconButton(
-                  icon: const Icon(
-                    Icons.menu,
-                    color: white,
-                  ),
-                  onPressed: () {
-                    Scaffold.of(context).openDrawer(); // Opens the drawer
-                  },
-                ),
+                    onPressed: () {
+                      Scaffold.of(context).openDrawer(); // Opens the drawer
+                    },
+
+                    icon: SvgPicture.asset(
+                      "assets/icons/drawer.svg",
+                      height: 20,
+                      width: 25,
+                    ))
               );
             },
           ),
@@ -94,10 +92,31 @@ class _AboutState extends State<About> {
                     ],
                   ),
                 ),
+                // Obx(() => Text(
+                //     'Connection Status: ${socketController.connectionStatus.value}')),
+                // Obx(() => Text('Bot Data: ${socketController.botData.value}')),
+                // Obx(() =>
+                //     Text('Bot Update: ${socketController.botUpdate.value}')),
+                // Obx(() => Text(
+                //     'Client Error: ${socketController.clientError.value}')),
+                // Obx(() => Text(
+                //     'Trade Executed: ${socketController.tradeExecuted.value}')),
+                // SizedBox(height: 20),
+                // ElevatedButton(
+                //   onPressed: () {
+                //     socketController.connect();
+                //   },
+                //   child: Text('Connect'),
+                // ),
+                // ElevatedButton(
+                //   onPressed: () {
+                //     socketController.disconnect();
+                //   },
+                //   child: Text('Disconnect'),
+                // ),
               ],
             ),
           ),
-        )
-    );
+        ));
   }
 }

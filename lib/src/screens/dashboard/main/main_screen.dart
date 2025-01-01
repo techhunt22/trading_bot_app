@@ -104,6 +104,7 @@ class _MainScreenState extends State<MainScreen> {
           controller: _scrollController, // Attach the scroll controller
 
           slivers: [
+
             const CustomSliverAppBar(
               name: "Main",
               icon: "assets/icons/main.svg",

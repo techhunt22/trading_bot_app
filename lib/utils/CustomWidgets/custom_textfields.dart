@@ -11,8 +11,10 @@ class CustomTextField extends StatelessWidget {
   final Color textColor;
   final String? Function(String?)? validator;
   final String? text;
+  final void Function(String)?  onchanged;
   final String hinttext;
   final bool? titleon;
+  final bool readonly;
 
   const CustomTextField({
     super.key,
@@ -24,7 +26,7 @@ class CustomTextField extends StatelessWidget {
     required this.action,
     this.text,
     required this.hinttext,
-     this.titleon,
+     this.titleon, required this.readonly, this.onchanged,
   });
 
   @override
@@ -48,18 +50,21 @@ class CustomTextField extends StatelessWidget {
           controller: controller,
           keyboardType: keyboardType,
           textInputAction: action,
+          onChanged: onchanged,
           cursorColor: white,
           validator: validator,
+          readOnly: readonly,
           style: TextStyle(
             color: textColor,
             fontSize: 15,
           ),
           decoration: InputDecoration(
             filled: true,
+
             fillColor: fillColor,
             hintText: hinttext,
-            hintStyle: const TextStyle(
-              color: white,
+            hintStyle: TextStyle(
+              color: greylight,
               fontSize: 14,
             ),
             border: OutlineInputBorder(borderRadius: BorderRadius.circular(5)),

@@ -44,6 +44,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Row(
+
                         children: [
                           Expanded(
                             child: GestureDetector(
@@ -131,10 +132,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ),
               ),
             ],
-          )),
+          ),
+
+
+      ),
     );
   }
-
 }
 
 
