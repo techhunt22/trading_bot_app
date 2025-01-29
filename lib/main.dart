@@ -11,7 +11,7 @@ import 'package:tradingapp_bot/src/screens/dashboard/settings/settings.dart';
 import 'package:tradingapp_bot/src/viewmodels/bot/bot_state.dart';
 import 'package:tradingapp_bot/src/viewmodels/bot/start_bot_controller.dart';
 import 'package:tradingapp_bot/src/viewmodels/bot/stop_bot_controller.dart';
-import 'package:tradingapp_bot/src/viewmodels/socket/socket_controller.dart';
+import 'package:tradingapp_bot/src/viewmodels/socket/socket_controller_new.dart';
 
 import 'constants/color_constants.dart';
 
@@ -25,6 +25,7 @@ void main() {
     // Initialize other controllers
     Get.put(StartBotController(StartBotRepository()));
     Get.put(StopBotController(StopBotRepository()));
+
     runApp(
         const MyApp()
     //   DevicePreview(
@@ -55,7 +56,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'Flutter Demo',
         //initialBinding: AppBinding(),
         // useInheritedMediaQuery: true,
         // locale: DevicePreview.locale(context),

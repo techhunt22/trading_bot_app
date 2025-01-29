@@ -90,12 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "com.bot.trading.app" "\0"
-            VALUE "FileDescription", "tradingapp_bot" "\0"
+            VALUE "FileDescription", "Trading Bot" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "tradingapp_bot" "\0"
+            VALUE "InternalName", "TradingBot" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2024 com.bot.trading.app. All rights reserved." "\0"
-            VALUE "OriginalFilename", "tradingapp_bot.exe" "\0"
-            VALUE "ProductName", "tradingapp_bot" "\0"
+            VALUE "OriginalFilename", "TradingBot.exe" "\0"
+            VALUE "ProductName", "TradingBot" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END
