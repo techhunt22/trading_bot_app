@@ -140,12 +140,12 @@ class _OrdersState extends State<Orders> {
       },
       border:  TableBorder(
         horizontalInside: BorderSide(
-          color: purple.withOpacity(0.2),
+          color: purple.withValues(alpha: 0.2),
         ),
         verticalInside: BorderSide.none,
         top: BorderSide.none,
         bottom:  BorderSide(
-          color: purple.withOpacity(0.2),
+          color: purple.withValues(alpha:0.2),
         ),
         left: BorderSide.none,
         right: BorderSide.none,
@@ -178,7 +178,7 @@ class _OrdersState extends State<Orders> {
         verticalInside: BorderSide.none,
         top: BorderSide.none,
         bottom:  BorderSide(
-          color: purple.withOpacity(0.2),
+          color: purple.withValues(alpha:0.2),
         ),
         left: BorderSide.none,
         right: BorderSide.none,

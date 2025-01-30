@@ -11,6 +11,7 @@ class CreateAccountRepository {
 
   Future<AccountModel> createAccount({
     required String accountName,
+    required String exchangeId,
 
     required String apiKey,
     required String secretKey,
@@ -19,7 +20,7 @@ class CreateAccountRepository {
       var endpoint = ListAPI.createaccount;
       var body = {
         'accountName': accountName,
-        'exchangeId': "Binance",
+        'exchangeId': exchangeId,
         'apiKey': apiKey,
         'secretKey': secretKey,
       };

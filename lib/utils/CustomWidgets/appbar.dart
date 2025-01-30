@@ -53,8 +53,8 @@ class CustomSliverAppBar extends StatelessWidget {
           decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: [
-                const Color(0xff872BE1).withOpacity(0.0),
-                const Color(0xff872be2).withOpacity(0.5),
+                const Color(0xff872BE1).withValues(alpha:0.0),
+                const Color(0xff872be2).withValues(alpha:0.5),
               ],
               stops: const [0.5, 1.0], // Use 1.0 instead of 100 for proper gradient
               begin: Alignment.centerLeft,

@@ -4,8 +4,7 @@ import 'package:flutter/foundation.dart';
 
 import '../api_urls/api_urls.dart';
 import '../error/exception.dart';
-import 'handle_error.dart';
-import 'handle_response.dart';
+import 'handling.dart';
 
 
 
@@ -21,38 +20,40 @@ class ApiService {
   ApiService._internal() {
     dio.options.baseUrl = baseUrl;
     dio.options.headers['Content-Type'] = 'application/json';
-    dio.options.connectTimeout = const Duration(seconds: 10); // 10 seconds timeout
+
+    dio.options.connectTimeout =
+    const Duration(seconds: 10); // 10 seconds timeout
     dio.options.receiveTimeout = const Duration(seconds: 10);
 
-    dio.interceptors.add(InterceptorsWrapper(
-      onRequest: (options, handler) {
-        if (kDebugMode) {
-          print('Request: ${options.uri}');
-        }
-        return handler.next(options); // Continue
-      },
-      onResponse: (response, handler) {
-        if (kDebugMode) {
-          print('Response: ${response.data}');
-        }
-        return handler.next(response); // Continue
-      },
-      onError: (DioException e, handler) {
-        if (kDebugMode) {
-          print('Error: ${e.message}');
-        }
-        return handler.next(e); // Continue
-      },
-    )
-    );
+    dio.interceptors.add(
+
+        InterceptorsWrapper(
+
+          onRequest: (options, handler) {
+            if (kDebugMode) {
+              print('Request: ${options.uri}');
+            }
+            return handler.next(options); // Continue
+          },
+          onResponse: (response, handler) {
+            if (kDebugMode) {
+              print('Response: ${response.data}');
+            }
+            return handler.next(response); // Continue
+          },
+          onError: (DioException e, handler) {
+            if (kDebugMode) {
+              print('Error: ${e.message}');
+            }
+            return handler.next(e); // Continue
+          },
+        ));
   }
 
   // Step 3: Factory constructor to return the singleton instance
   factory ApiService() {
     return _instance;
   }
-
-
 
   /////////////////////////////////////
   // General GET request method
@@ -63,12 +64,7 @@ class ApiService {
         Map<String, dynamic>? headers,
         Map<String, dynamic>? queryParams,
       }) async {
-    if (!await _checkConnection()) {
-      throw ApiException(
-        message: 'No internet connection. Please check your network and try again.',
-      );
-
-    }
+    await _checkConnectionAndThrow(); // Using the new method
 
     try {
       Response response = await dio.get(
@@ -93,20 +89,21 @@ class ApiService {
         Map<String, dynamic>? headers,
         dynamic body,
       }) async {
-    if (!await _checkConnection()) {
-      throw ApiException(
-        message: 'No internet connection. Please check your network and try again.',
-      );
-    }
+    await _checkConnectionAndThrow(); // Using the new method
     try {
       Response response = await dio.post(
         endpoint,
-        options: Options(headers: headers,),
+        options: Options(
+          headers: headers,
+        ),
+
         data: body,
 
       );
+
       return handleResponse(response);
-    } catch (e) {
+    }
+    catch (e) {
       throw handleError(e);
     }
   }
@@ -119,11 +116,9 @@ class ApiService {
       String endpoint, {
         Map<String, dynamic>? headers,
       }) async {
-    if (!await _checkConnection()) {
-      throw ApiException(
-        message: 'No internet connection. Please check your network and try again.',
-      );
-    }
+    await _checkConnectionAndThrow(); // Using the new method
+
+
     try {
       Response response = await dio.delete(
         endpoint,
@@ -135,7 +130,6 @@ class ApiService {
     }
   }
 
-
   /////////////////////////////////////
 // General PUT request method
 /////////////////////////////////////
@@ -145,11 +139,9 @@ class ApiService {
         Map<String, dynamic>? headers,
         dynamic body,
       }) async {
-    if (!await _checkConnection()) {
-      throw ApiException(
-        message: 'No internet connection. Please check your network and try again.',
-      );
-    }
+    await _checkConnectionAndThrow(); // Using the new method
+
+
     try {
       Response response = await dio.put(
         endpoint,
@@ -162,6 +154,14 @@ class ApiService {
     }
   }
 
+  Future<void> _checkConnectionAndThrow() async {
+    if (!await _checkConnection()) {
+      throw ApiException(
+        message:
+            'No internet connection. Please check your network and try again.',
+      );
+    }
+  }
 
   Future<bool> _checkConnection() async {
     try {
@@ -172,13 +172,12 @@ class ApiService {
     }
   }
 
-  Future<T> retry<T>(Future<T> Function() function, {int maxRetries = 3}) async {
+  Future<T> retry<T>(Future<T> Function() function,
+      {int maxRetries = 3}) async {
     for (int attempt = 0; attempt <= maxRetries; attempt++) {
-      if (!await _checkConnection()) {
-        throw ApiException(
-          message: 'No internet connection. Please check your network and try again.',
-        );
-      }
+      //await _checkConnectionAndThrow(); // Using the new method
+
+
       try {
         return await function();
       } catch (e) {
@@ -189,10 +188,7 @@ class ApiService {
       }
     }
     throw ApiException(
-       message:  'Max retries exceeded',
-
-
+      message: 'Max retries exceeded',
     );
   }
 }
-

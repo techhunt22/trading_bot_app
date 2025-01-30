@@ -1,4 +1,3 @@
-
 import 'package:flutter/foundation.dart';
 import 'package:tradingapp_bot/src/core/api_urls/api_urls.dart';
 
@@ -6,18 +5,22 @@ import '../../../core/error/exception.dart';
 import '../../../core/service/service.dart';
 
 class StartBotRepository {
-
   StartBotRepository();
+
   final apiService = ApiService();
 
-  Future<Map<String, dynamic>> startBot() async {
-
+  Future<Map<String, dynamic>> startBot({
+    required String accountId,
+  }) async {
 
     try {
-      var endpoint =  ListAPI.startbot;
+      var endpoint = ListAPI.startbot;
+      var body = {
+        'accountId': accountId,
+      };
 
       // Making the API call via ApiService
-      final response = await apiService.post(endpoint,);
+      final response = await apiService.post(endpoint, body: body);
 
       // Logging the response for debugging purposes
 
@@ -28,8 +31,6 @@ class StartBotRepository {
       }
 
       return response.data;
-
-
     } catch (e) {
       if (kDebugMode) {
         print('Error in Start Bot Repository: $e');

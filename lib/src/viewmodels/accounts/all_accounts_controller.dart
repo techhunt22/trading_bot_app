@@ -25,12 +25,14 @@ class AllAccountController extends GetxController {
   final accname = TextEditingController().obs;
   final apiKey = TextEditingController().obs;
   final secretKey = TextEditingController().obs;
+  final exchangeId = TextEditingController().obs;
 
   void resetFields() {
     // Clear the text fields using their controllers
     accname.value.clear();
     apiKey.value.clear();
     secretKey.value.clear();
+    exchangeId.value.clear();
   }
   List<String> get accountIds => allAccounts.map((account) => account.id.toString()).toList();
 
@@ -45,6 +47,7 @@ class AllAccountController extends GetxController {
     accname.value.dispose();
     apiKey.value.dispose();
     secretKey.value.dispose();
+    exchangeId.value.dispose();
 
 
     super.onClose();
@@ -54,11 +57,12 @@ class AllAccountController extends GetxController {
     final account = allAccounts.firstWhere(
             (account) => account.id == accountId,
         orElse: () => AllAccountModel(
-            id: '', accountName: '', exchangeId: 'Binance', apiKey: '', secretKey: '', )
+            id: '', accountName: '', exchangeId: '', apiKey: '', secretKey: '', )
     );
 
     selectedAccountId.value = accountId;
     accname.value.text = account.accountName;
+    exchangeId.value.text = account.exchangeId;
     apiKey.value.text = account.apiKey;
     secretKey.value.text = account.secretKey;
 
@@ -76,7 +80,7 @@ class AllAccountController extends GetxController {
 
       if (kDebugMode) {
         for (var account in accounts) {
-          print('Account ID: ${account.id} : ${account.accountName}');
+          print('Account ID: ${account.id} : ${account.accountName} ${account.exchangeId}');
         }
       }
 

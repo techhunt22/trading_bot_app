@@ -37,7 +37,7 @@ class _ContentWidget2State extends State<ContentWidget2> {
     return Column(
       children: [
         Divider(
-          color: purple.withOpacity(0.6),
+          color: purple.withValues(alpha: 0.6),
           thickness: 2.5,
         ),
         Padding(

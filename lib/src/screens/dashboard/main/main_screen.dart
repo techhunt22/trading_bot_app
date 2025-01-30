@@ -251,7 +251,7 @@ class _MainScreenState extends State<MainScreen> {
         isVertical
             ? const SizedBox.shrink()
             : VerticalDivider(
-                color: purple.withOpacity(0.6),
+                color: purple.withValues(alpha: 0.6),
                 thickness: 2,
                 endIndent: 10,
                 indent: 10,

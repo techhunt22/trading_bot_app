@@ -24,6 +24,7 @@ class UpdateAccountController extends GetxController {
       {
 
         required String accountName,
+        required String exchangeId,
 
         required String apiKey,
         required String secretKey,
@@ -38,6 +39,7 @@ class UpdateAccountController extends GetxController {
 
           accountName: accountName,
           apiKey: apiKey,
+          exchangeId: exchangeId,
           secretKey: secretKey,
           accountId: accountId
       );

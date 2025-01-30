@@ -20,20 +20,12 @@ class CoinsAccountController extends GetxController {
   var selectedAccountname = ''.obs;
   final idcontroller = TextEditingController().obs;
 
-
   void resetFields() {
     // Clear the text fields using their controllers
     idcontroller.value.clear();
   }
 
-  @override
-  void onClose() {
-    idcontroller.value.dispose();
 
-
-
-    super.onClose();
-  }
 
   List<Map<String, dynamic>> get accountItems {
     return allAccounts

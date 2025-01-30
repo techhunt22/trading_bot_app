@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:tradingapp_bot/src/data/repositories/bot/start_bot_repo.dart';
 import '../../../Constants/color_constants.dart';
 import '../../core/error/error_handler.dart';
-import '../socket/socket_controller.dart';
+import '../socket/socket_controller_new.dart';
 final socketController = Get.find<SocketController>();
 
 class StartBotController extends GetxController {
@@ -17,12 +17,14 @@ class StartBotController extends GetxController {
   var errorMessage = ''.obs;
 
   // Method to handle login
-  Future<void> botStart() async {
+  Future<void> botStart({
+    required String accountId,
+  }) async {
     isLoading.value = true;
     errorMessage.value = '';
 
     try {
-      final response = await startBotRepository.startBot();
+      final response = await startBotRepository.startBot(accountId: accountId);
 
 
       if (kDebugMode) {

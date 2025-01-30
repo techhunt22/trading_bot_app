@@ -2,7 +2,7 @@ class ListAPI {
   ListAPI._();
 
   //BASE URL
-  static const String baseUrl = "https://opo.techhunt.info";
+    static const String baseUrl = "https://kpdzcg9r-8000.inc1.devtunnels.ms";
 
 
 

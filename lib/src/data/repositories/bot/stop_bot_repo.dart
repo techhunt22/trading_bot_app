@@ -10,14 +10,20 @@ class StopBotRepository {
   StopBotRepository();
   final apiService = ApiService();
 
-  Future<Map<String, dynamic>> stopBot() async {
+  Future<Map<String, dynamic>> stopBot({
+    required String accountId,
+  }) async {
 
 
     try {
       var endpoint =  ListAPI.stopbot;
+      var body = {
+        'accountId': accountId,
+      };
 
       // Making the API call via ApiService
-      final response = await apiService.post(endpoint,);
+      final response = await apiService.post(endpoint, body: body);
+      // Making the API call via ApiService
 
       // Logging the response for debugging purposes
 

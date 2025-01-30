@@ -15,6 +15,7 @@ class UpdateAccountRepository {
 
     required String accountName,
     required String apiKey,
+    required String exchangeId,
     required String secretKey,
     required String accountId,
   }) async {
@@ -25,7 +26,7 @@ class UpdateAccountRepository {
       var body = {
 
         'accountName': accountName,
-        'exchangeId': "Binance",
+        'exchangeId': exchangeId,
         'apiKey': apiKey,
         'secretKey': secretKey,
 

@@ -24,7 +24,7 @@ class CreateAccountController extends GetxController {
   Future<void> accountcreate(
       {
         required String accountName,
-
+        required String exchangeId,
         required String apiKey,
         required String secretKey,
       }) async {
@@ -36,6 +36,7 @@ class CreateAccountController extends GetxController {
           accountName: accountName,
           apiKey: apiKey,
           secretKey: secretKey,
+       exchangeId: exchangeId,
 
       );
       

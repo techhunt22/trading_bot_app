@@ -45,8 +45,8 @@ class _DrawerMainState extends State<DrawerMain> {
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: [
-                      const Color(0xff872BE1).withOpacity(0.0),
-                      const Color(0xff872be2).withOpacity(0.5)
+                      const Color(0xff872BE1).withValues(alpha:0.0),
+                      const Color(0xff872be2).withValues(alpha:0.5)
                     ],
                     stops: const [0.5, 100],
                     begin: Alignment.centerRight,
@@ -150,6 +150,8 @@ class _DrawerMainState extends State<DrawerMain> {
                     Future.delayed(const Duration(milliseconds: 500), () {
                       Get.back();
                       Get.off(() => const BotStartScreen());
+                      //Get.off(() => const DataScreen());
+
                     });
 
 
@@ -196,8 +198,8 @@ Widget buttonDrawer({
             gradient: isSelected
                 ? LinearGradient(
                     colors: [
-                      purple.withOpacity(0.5),
-                      const Color(0xff4231C8).withOpacity(0.1),
+                      purple.withValues(alpha:0.5),
+                      const Color(0xff4231C8).withValues(alpha:0.1),
                     ],
                     begin: Alignment.bottomCenter,
                     end: Alignment.topCenter,

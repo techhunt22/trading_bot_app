@@ -1,9 +1,11 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../constants/color_constants.dart';
 import '../../../../constants/font_size.dart';
 import '../../../../utils/CustomWidgets/custom_textfields.dart';
+import '../../../../utils/CustomWidgets/customdropdown.dart';
 import '../../../data/repositories/accounts/create_account_repo.dart';
 import '../../../viewmodels/accounts/create_account_controller.dart';
 
@@ -18,12 +20,19 @@ class _AddNewAccountScreenState extends State<AddNewAccountScreen> {
   final accountname = TextEditingController();
   final apikey = TextEditingController();
   final secrekey = TextEditingController();
-  final exhchangeid = TextEditingController(text: "Binance");
 
 
   final creataccount = Get.put(CreateAccountController(CreateAccountRepository()));
 
   final _formKey = GlobalKey<FormState>();
+
+  List<Map<String, String>> exchangeid = [
+    {'value': 'Binance', 'icon': 'assets/icons/binance.png'},
+    {'value': 'Coinbase', 'icon': 'assets/icons/coinbase.png'},
+    {'value': 'CEX', 'icon': 'assets/icons/cex.png'},
+  ];
+  String? _selectedValue;
+
 
   @override
   void dispose() {
@@ -71,22 +80,39 @@ class _AddNewAccountScreenState extends State<AddNewAccountScreen> {
               height: 20,
             ),
 
-            CustomTextField(
-              fillColor: background,
-              readonly: true,
+            // CustomTextField(
+            //   fillColor: background,
+            //   readonly: true,
+            //   titleon: true,
+            //   controller: exhchangeid,
+            //   hinttext: "",
+            //   validator: (value) {
+            //     if (value == null || value.isEmpty) {
+            //       return 'This field cannot be empty';
+            //     }
+            //     return null;
+            //   },
+            //   keyboardType: TextInputType.none,
+            //   textColor: white,
+            //   action: TextInputAction.done,
+            //   text: "Exchange ID",
+            // ),
+
+            CustomDropdown(
+              title: 'Exchange ID',
+              hintText: 'Select the Exchange ID',
+              items: exchangeid,
+              selectedValue: _selectedValue,
               titleon: true,
-              controller: exhchangeid,
-              hinttext: "",
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'This field cannot be empty';
+              onChanged: (value) {
+                setState(() {
+                  _selectedValue = value;
+                });
+
+                if (kDebugMode) {
+                  print(value);
                 }
-                return null;
               },
-              keyboardType: TextInputType.none,
-              textColor: white,
-              action: TextInputAction.done,
-              text: "Exchange ID",
             ),
 
 
@@ -133,7 +159,9 @@ class _AddNewAccountScreenState extends State<AddNewAccountScreen> {
             ),
             Center(
               child: Obx(() {
-                return   creataccount.isLoading.value  ? const CircularProgressIndicator() :
+                return creataccount.isLoading.value
+                    ? const CircularProgressIndicator()
+                    :
                 Container(
                   width: double.infinity,
                   margin: const EdgeInsets.symmetric(horizontal: 20),
@@ -162,22 +190,37 @@ class _AddNewAccountScreenState extends State<AddNewAccountScreen> {
                           fontWeight: FontWeight.w500),
                     ),
                     onPressed: () {
-
-
-                     if (_formKey.currentState!.validate()) {
+                      if (_formKey.currentState!.validate()) {
                         // Proceed with account creation if both conditions are fulfilled
-                       creataccount.accountcreate(
-                         accountName: accountname.text,
-                         apiKey: apikey.text,
-                         secretKey: secrekey.text,
-                       ).then((_) {
-                         accountname.clear();
-                         apikey.clear();
-                         secrekey.clear();
-                        });
 
-
-
+                        if (_selectedValue == null ||
+                            _selectedValue!.isEmpty) {
+                          Get.snackbar(
+                            'Error',
+                            'Please select an exchange id',
+                            backgroundColor: red,
+                            colorText: white,
+                            snackPosition: SnackPosition.BOTTOM,
+                            margin: const EdgeInsets.only(
+                                bottom: 20, right: 20, left: 20),
+                          );
+                        }
+                        else {
+                          creataccount.accountcreate(
+                            accountName: accountname.text,
+                            exchangeId: _selectedValue!,
+                            apiKey: apikey.text,
+                            secretKey: secrekey.text,
+                          ).then((_) {
+                            accountname.clear();
+                            apikey.clear();
+                            secrekey.clear();
+                            setState(() {
+                              // Reset the selected value
+                              _selectedValue = null;
+                            });
+                          });
+                        }
 
                       }
                     },

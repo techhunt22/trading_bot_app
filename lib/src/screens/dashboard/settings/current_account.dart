@@ -25,7 +25,6 @@ class _CurrentAccountScreenState extends State<CurrentAccountScreen> {
   final AllAccountController allaccount = Get.find<AllAccountController>();
   final DeleteAccountController delectaccount = Get.find<DeleteAccountController>();
   final UpdateAccountController updateController = Get.find<UpdateAccountController>();
-  final TextEditingController exhchangeid = TextEditingController(text: "Binance");
 
   @override
   void initState() {
@@ -36,7 +35,6 @@ class _CurrentAccountScreenState extends State<CurrentAccountScreen> {
   void dispose() {
     super.dispose();
     allaccount.resetFields();
-    exhchangeid.dispose();
     _selectedValue = "";
 
   }
@@ -56,7 +54,7 @@ class _CurrentAccountScreenState extends State<CurrentAccountScreen> {
                   fontSize: headlinesmall, fontWeight: FontWeight.w600),
             ),
             const Text(
-              "Select the account that you want the bot to connect to",
+              "Select the account that you want to update",
               style:
               TextStyle(fontSize: bodysmall, fontWeight: FontWeight.w400),
             ),
@@ -173,9 +171,9 @@ class _CurrentAccountScreenState extends State<CurrentAccountScreen> {
                   CustomTextField(
                     fillColor: background,
                     text: "Exchange ID",
-                    readonly: true,
+                    readonly: false,
                     titleon: true,
-                    controller: exhchangeid,
+                    controller: allaccount.exchangeId.value,
                     hinttext: "Exchange ID",
                     validator: (value) {
                       if (value == null || value.isEmpty) {
@@ -347,6 +345,7 @@ class _CurrentAccountScreenState extends State<CurrentAccountScreen> {
                                   updateController.accountupdate(
                                     accountId: _selectedValue!,
                                     accountName: allaccount.accname.value.text,
+                                    exchangeId: allaccount.exchangeId.value.text,
                                     apiKey: allaccount.apiKey.value.text,
                                     secretKey:
                                     allaccount.secretKey.value.text,

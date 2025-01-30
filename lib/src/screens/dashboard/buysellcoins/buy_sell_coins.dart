@@ -12,7 +12,7 @@ import '../../../../utils/CustomWidgets/custom_textfields.dart';
 import '../../../../utils/CustomWidgets/customdropdown.dart';
 import '../../../data/repositories/accounts/all_accounts_repo.dart';
 import '../../../viewmodels/coins/accounts_coins_controller.dart';
-import '../../../viewmodels/socket/socket_controller.dart';
+import '../../../viewmodels/socket/socket_controller_new.dart';
 import '../../dashboard_screen.dart';
 
 class BuySellCoinsScreen extends StatefulWidget {
@@ -47,7 +47,6 @@ class _BuySellCoinsScreenState extends State<BuySellCoinsScreen> {
   @override
   void dispose() {
     super.dispose();
-    accountController.resetFields();
     _selectedValue = "";
     coinsymbol.dispose();
     quantity.dispose();
@@ -160,8 +159,7 @@ class _BuySellCoinsScreenState extends State<BuySellCoinsScreen> {
                               print('Selected Account: $_selectedValue');
                             }
                             if (kDebugMode) {
-                              print("${accountController.idcontroller.value
-                                .text}  ");
+                              print("${accountController.idcontroller.value.text}  ");
                             }
                           },
                         );
@@ -245,7 +243,9 @@ class _BuySellCoinsScreenState extends State<BuySellCoinsScreen> {
                         text: "Manual Symbol",
                       )
                           :  Obx(() {
-                            print(socketController.biggestDumpSymbol.value);
+                            if (kDebugMode) {
+                              print(socketController.biggestDumpSymbolController.value);
+                            }
 
                         return CustomTextField(
                           fillColor: background,

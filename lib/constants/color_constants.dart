@@ -11,7 +11,7 @@ const Color transparent = Colors.transparent;
 const Color  white = Colors.white;
 const Color  red = Colors.red;
 
-final Color greylight =  const Color(0xffFFFFFF).withOpacity(0.65);
+final Color greylight =  const Color(0xffFFFFFF).withValues(alpha: 0.65);
 const Color grey =  Colors.grey;
 
 
